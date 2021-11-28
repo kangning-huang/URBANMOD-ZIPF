@@ -1,0 +1,202 @@
+﻿ISO,Countryname,Region32
+AFG,Afghanistan,PAK
+ALB,Albania,EEU
+DZA,Algeria,NAF
+AGO,Angola,SSA-M
+ATG,Antigua and Barbuda,LAM-M
+ARG,Argentina,LAM-M
+ARM,Armenia,CAS
+AUS,Australia,AUNZ
+AUT,Austria,EU15
+AZE,Azerbaijan,CAS
+BHS,Bahamas,LAM-M
+BHR,Bahrain,MEA-H
+BGD,Bangladesh,OAS-L
+BRB,Barbados,LAM-M 
+BLR,Belarus,EEU-FSU
+BEL,Belgium,EU15
+BLZ,Belize,LAM-L
+BEN,Benin,SSA-L
+BMU,Bermuda,LAM-M
+BTN,Bhutan,OAS-M
+BOL,Bolivia (Plurinational State of),LAM-M
+BIH,Bosnia and Herzegovina,EEU
+BWA,Botswana,SSA-M
+BRA,Brazil,BRA
+BRN,Brunei Darussalam,OAS-M
+BGR,Bulgaria,EU12-M
+BFA,Burkina Faso,SSA-L
+BDI,Burundi,SSA-L
+KHM,Cambodia,OAS-CPA
+CMR,Cameroon,SSA-L
+CAN,Canada,CAN
+CPV,Cape Verde,SSA-L
+CAF,Central African Republic,SSA-L
+TCD,Chad,SSA-L
+CHL,Chile,LAM-M
+CHN,China,CHN
+HKG,"China, Hong Kong Special Administrative Region",CHN
+MAC,"China, Macao Special Administrative Region",CHN
+COL,Colombia,LAM-M
+COM,Comoros,SSA-L
+COG,Congo,SSA-L
+CRI,Costa Rica,LAM-M
+CIV,Côte d`Ivoire,SSA-L
+HRV,Croatia,EEU
+CUB,Cuba,LAM-M
+CYP,Cyprus,EU12-H
+CZE,Czech Republic,EU12-H
+PRK,Democratic People`s Republic of Korea,OAS-L
+COD,Democratic Republic of the Congo,SSA-L
+DNK,Denmark,EU15
+DJI,Djibouti,SSA-L
+DMA,Dominica,LAM-M
+DOM,Dominican Republic,LAM-M
+ECU,Ecuador,LAM-M
+EGY,Egypt,NAF
+SLV,El Salvador,LAM-M
+GNQ,Equatorial Guinea,SSA-M
+ERI,Eritrea,SSA-L
+EST,Estonia,EU12-H
+ETH,Ethiopia,SSA-L
+FJI,Fiji,OAS-L
+FIN,Finland,EU15
+FRA,France,EU15
+GUF,French Guiana,LAM-M
+PYF,French Polynesia,OAS-M
+GAB,Gabon,SSA-M
+GMB,Gambia,SSA-L
+GEO,Georgia,CAS
+DEU,Germany,EU15
+GHA,Ghana,SSA-L
+GRC,Greece,EU15
+GRD,Grenada,LAM-M
+GLP,Guadeloupe,LAM-M
+GUM,Guam,OAS-M
+GTM,Guatemala,LAM-L
+GIN,Guinea,SSA-L
+GNB,Guinea-Bissau,SSA-L
+GUY,Guyana,LAM-M
+HTI,Haiti,LAM-L
+HND,Honduras,LAM-L
+HUN,Hungary,EU12-H
+ISL,Iceland,EFTA
+IND,India,IND
+IDN,Indonesia,IDN
+IRN,Iran (Islamic Republic of),MEA-M
+IRQ,Iraq,MEA-M
+IRL,Ireland,EU15
+ISR,Israel,MEA-H
+ITA,Italy,EU15
+JAM,Jamaica,LAM-M
+JPN,Japan,JPN
+JOR,Jordan,MEA-M
+KAZ,Kazakhstan,CAS
+KEN,Kenya,SSA-L
+KWT,Kuwait,MEA-H
+KGZ,Kyrgyzstan,CAS
+LAO,Lao People`s Democratic Republic,OAS-CPA
+LVA,Latvia,EU12-M
+LBN,Lebanon,MEA-M
+LSO,Lesotho,SSA-L
+LBR,Liberia,SSA-L
+LBY,Libyan Arab Jamahiriya,NAF
+LTU,Lithuania,EU12-M
+LUX,Luxembourg,EU15
+MDG,Madagascar,SSA-L
+MWI,Malawi,SSA-L
+MYS,Malaysia,OAS-M
+MDV,Maldives,OAS-M
+MLI,Mali,SSA-L
+MLT,Malta,EU12-H
+MTQ,Martinique,LAM-M
+MRT,Mauritania,SSA-L
+MUS,Mauritius,SSA-M
+MYT,Mayotte,SSA-M
+MEX,Mexico,MEX
+FSM,"Micronesia, Federated States of",OAS-L
+MNG,Mongolia,OAS-CPA
+MNE,Montenegro,EEU
+MAR,Morocco,NAF
+MOZ,Mozambique,SSA-L
+MMR,Myanmar,OAS-L
+NAM,Namibia,SSA-M
+NPL,Nepal,OAS-L
+NLD,Netherlands,EU15
+ANT,Netherlands Antilles,LAM-M
+NCL,New Caledonia,OAS-M
+NZL,New Zealand,AUNZ
+NIC,Nicaragua,LAM-L
+NER,Niger,SSA-L
+NGA,Nigeria,SSA-L
+NOR,Norway,EFTA
+PSE,Occupied Palestinian Territory,MEA-M
+OMN,Oman,MEA-H
+PAK,Pakistan,PAK
+PAN,Panama,LAM-M
+PNG,Papua New Guinea,OAS-L
+PRY,Paraguay,LAM-M
+PER,Peru,LAM-M
+PHL,Philippines,OAS-L
+POL,Poland,EU12-H
+PRT,Portugal,EU15
+PRI,Puerto Rico,USA
+QAT,Qatar,MEA-H
+KOR,Republic of Korea,KOR
+MDA,Republic of Moldova,EEU-FSU
+REU,Réunion,SSA-M
+ROU,Romania,EU12-M
+RUS,Russian Federation,RUS
+RWA,Rwanda,SSA-L
+KNA,Saint Kitts and Nevis,LAM-M
+LCA,Saint Lucia,LAM-M
+VCT,Saint Vincent and the Grenadines,LAM-M
+WSM,Samoa,OAS-L
+STP,Sao Tome and Principe,SSA-L
+SAU,Saudi Arabia,MEA-H
+SEN,Senegal,SSA-L
+SRB,Serbia,EEU
+SYC,Seychelles,SSA-M
+SLE,Sierra Leone,SSA-L
+SGP,Singapore,OAS-M
+SVK,Slovakia,EU12-H
+SVN,Slovenia,EU12-H
+SLB,Solomon Islands,OAS-L
+SOM,Somalia,SSA-L
+ZAF,South Africa,SAF
+SSD,South Sudan,SSA-L
+ESP,Spain,EU15
+LKA,Sri Lanka,OAS-M
+SDN,Sudan,SSA-L
+SUR,Suriname,LAM-M
+SWZ,Swaziland,SSA-L
+SWE,Sweden,EU15
+CHE,Switzerland,EFTA
+SYR,Syrian Arab Republic,MEA-M
+TWN,Taiwan,CHN
+TJK,Tajikistan,CAS
+THA,Thailand,OAS-M
+MKD,The former Yugoslav Republic of Macedonia,EEU
+TLS,Timor-Leste,OAS-L
+TGO,Togo,SSA-L
+TON,Tonga,OAS-L
+TTO,Trinidad and Tobago,LAM-M
+TUN,Tunisia,NAF
+TUR,Turkey,TUR
+TKM,Turkmenistan,CAS
+UGA,Uganda,SSA-L
+UKR,Ukraine,EEU-FSU
+ARE,United Arab Emirates,MEA-H
+GBR,United Kingdom of Great Britain and Northern Ireland,EU15
+TZA,United Republic of Tanzania,SSA-L
+USA,United States of America,USA
+URY,Uruguay,LAM-M
+UZB,Uzbekistan,CAS
+VUT,Vanuatu,OAS-L
+VEN,Venezuela (Bolivarian Republic of),LAM-M
+VNM,Viet Nam,OAS-CPA
+VIR,Virgin Islands (US),USA
+ESH,Western Sahara,NAF
+YEM,Yemen,MEA-M
+ZMB,Zambia,SSA-L
+ZWE,Zimbabwe,SSA-L
