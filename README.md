@@ -8,6 +8,8 @@ To run the demo provided here, open "main.m" in Matlab.
 - Matlab R2021b or above;
 - RStudio v1.4.1717 or above;
 - R v4.1.0 or above;
+The codes have been tested in macOS Monterey v12.01. 
+Running the codes in Windows may require changing '/' to '\' for file or directory names.
 
 ## References
 1. Huang, Kangning, et al. "Projecting global urban land expansion and heat island intensification through 2050." Environmental Research Letters 14.11 (2019): 114037.
