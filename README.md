@@ -4,8 +4,8 @@ This repository contains codes and sample data to run the urban land expansion m
 ## How to run URBANMOD-ZIPF
 Open "main.m" in Matlab.
 
-## Urban land areas
-The areas of urban land (km^2) for each country under five Shared Socioeconomic Pathways (SSPs) are stored in "results/urban_land.csv". These areas are calculated based on the panel regression coefficients listed in the Supplementary Table 2 in (Huang et al 2019). To perform the calculation, run "functions/urban_land_quantities.R" in R.
+## Urban land areas in Shared Socioeconomic Pathways (SSPs)
+The areas of urban land (km^2) for each country in five Shared Socioeconomic Pathways (SSPs) are stored in "results/urban_land.csv". These areas are calculated based on the panel regression coefficients listed in the Supplementary Table 2 in (Huang et al 2019). To perform the calculation, run "functions/urban_land_quantities.R" in R.
 
 ## Urban land covers in 2015
 The urban land covers in 2015 are based on the Global Human Settlement Layer - Settlement Model (GHSL-SMOD; Florczyk et al 2019). Grid cells labeled as "urban center (30)" or "dense urban cluster (23)" are considered urban lands. Both of these two types of grid cells have >50% impervious surface and >1,500 people/km^2 population density. Run script "functions/urban_land_setup.R" in R to crop urban land covers in 2015 for each country. The cropped rasters are stored in "results/{country_ISO3_code}/urban_2015.tif".
