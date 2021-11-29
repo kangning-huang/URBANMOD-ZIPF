@@ -10,5 +10,5 @@ Open "main.m" in Matlab.
 - R v4.1.0 or above;
 
 ## References
-1. Huang, Kangning, et al. "Projecting global urban land expansion and heat island intensification through 2050." Environmental Research Letters 14.11 (2019): 114037.
+1. Huang, Kangning, Xia Li, Xiaoping Liu, Karen C. Seto. "Projecting global urban land expansion and heat island intensification through 2050." Environmental Research Letters 14.11 (2019): 114037.
 2. Seto, Karen C., Burak Güneralp, and Lucy R. Hutyra. "Global forecasts of urban expansion to 2030 and direct impacts on biodiversity and carbon pools." Proceedings of the National Academy of Sciences 109.40 (2012): 16083-16088.

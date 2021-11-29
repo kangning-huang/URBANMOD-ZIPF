@@ -47,3 +47,5 @@ tbl_gdp <- tbl_ssps %>%
 # Calculate GDP per capita ($ / person)
 tbl_gdpc <- merge(tbl_gdp, tbl_pop, by = c('SCENARIO', 'REGION', 'year')) %>%
   dplyr::mutate(GDPC = (GDP * 10^9) / (population * 10^6))
+
+# Calculate Urban Land (km2)
