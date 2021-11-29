@@ -1,14 +1,15 @@
 library(sf)
 library(dplyr)
 library(raster)
-library(spData)
+library(fasterize)
 library(rnaturalearth)
 
 # Set working directory to path of the script
 setwd(dirname(getSourceEditorContext()$path))
 
 # Download country boundaries
-countries <- ne_download(scale = 10, returnclass = 'sf')
+countries <- ne_download(scale = 10, returnclass = 'sf') %>%
+  dplyr::select(ADM0_A3, ADMIN)
 
 # Load urban land cover in 2015 from GHSL
 smod_2015 <- raster(file.path('..', 'data', 'GHS_SMOD_POP2015_GLOBE_R2019A_54009_1K_V2_0', 'GHS_SMOD_POP2015_GLOBE_R2019A_54009_1K_V2_0.tif'))
@@ -19,5 +20,26 @@ tbl_urban_land <- readr::read_csv(file.path('..', 'results', 'urban_land.csv'), 
 # List of countries available in urban land projections
 lst_countries <- unique(tbl_urban_land$REGION)
 
-# Mark urban center (30) and dense urban cluster (23) as urban lands
-urban_2015 <- (smod_2015>=23)
+# Loop through countries
+for (iso in lst_countries) {
+  # Select and re-project country polygons
+  country <- countries %>% 
+    dplyr::filter(ADM0_A3==iso) %>%
+    sf::st_transform(crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
+  if(nrow(country)>0) {
+    # Crop the global SMOD layer to the country
+    mask_ctry <- country %>%
+      fasterize::fasterize(smod_2015) %>%
+      raster::crop(country)
+    smod_ctry_2015 <- smod_2015 %>%
+      raster::crop(mask_ctry) %>%
+      raster::mask(mask_ctry)
+    # Mark urban center (30) and dense urban cluster (23) as urban lands
+    urban_ctry_2015 <- (smod_ctry_2015>=23)
+    # Create directory for the country
+    dir.create(file.path('..', 'results', iso))
+    # Export urban land of the country in 2015
+    raster::writeRaster(urban_ctry_2015,
+                        file.path('..', 'results', iso, 'urban_2015.tif'))
+  }
+}
