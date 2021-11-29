@@ -27,10 +27,11 @@ for (iso in lst_countries) {
     dplyr::filter(ADM0_A3==iso) %>%
     sf::st_transform(crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
   if(nrow(country)>0) {
-    # Crop the global SMOD layer to the country
+    # Create mask for the country
     mask_ctry <- country %>%
       fasterize::fasterize(smod_2015) %>%
       raster::crop(country)
+    # Crop the global SMOD layer to the country
     smod_ctry_2015 <- smod_2015 %>%
       raster::crop(mask_ctry) %>%
       raster::mask(mask_ctry)
