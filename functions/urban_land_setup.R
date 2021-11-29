@@ -7,7 +7,7 @@ library(rnaturalearth)
 # Set working directory to path of the script
 setwd(dirname(getSourceEditorContext()$path))
 
-# Download country boundaries
+# Download country boundaries from Natural Earth
 countries <- ne_download(scale = 10, returnclass = 'sf') %>%
   dplyr::select(ADM0_A3, ADMIN)
 
