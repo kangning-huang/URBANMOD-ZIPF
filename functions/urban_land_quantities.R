@@ -58,7 +58,8 @@ tbl_gdpc <- merge(tbl_gdp, tbl_pop, by = c('SCENARIO', 'REGION', 'year')) %>%
 # Calculate Urban Land (km2)
 tbl_urban_land <- tbl_gdpc %>% 
   merge(tbl_iso_reg32, by.x='REGION', by.y='ISO') %>%
-  merge(tbl_coef %>% rownames_to_column('REGION'), by='REGION') %>%
+  merge(tbl_coef %>% rownames_to_column('Region32'), 
+        by='Region32', all.y = T) %>%
   dplyr::mutate(ULC = GDPC * coef_gdpc + Estimate + coef_intercept) %>%
   merge(tbl_pop_urb, by = c('SCENARIO', 'REGION', 'year')) %>%
   dplyr::mutate(urban_land = as.integer(ULC * urban_pop)) %>%
