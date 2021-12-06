@@ -12,7 +12,7 @@ Open "main.m" in Matlab.
 
 The areas of urban land (km\^2) for each country in five Shared Socioeconomic Pathways (SSPs) are stored in "results/urban_land.csv". These areas are calculated based on the panel regression coefficients listed in the Supplementary Table 2 in (Huang et al 2019).
 
-To perform the calculation, run "functions/urban_land_quantities.R" in R.
+Run "functions/urban_land_quantities.R" in R to perform the calculation.
 
 ## Urban land covers in 2015
 
