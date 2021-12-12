@@ -46,7 +46,7 @@ for (iso in lst_countries) {
     urban_ctry_2015 <- (smod_ctry_2015>=23)
     # Interpolate suitability to the country
     suit_ctry <- suitability %>%
-      raster::resample(urban_ctry_2015, method='ngb') %>%
+      raster::resample(urban_ctry_2015, method='bilinear') %>%
       raster::mask(mask_ctry)
     # Create directory for the country
     dir.create(file.path('..', 'results', iso))
