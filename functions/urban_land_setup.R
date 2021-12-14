@@ -25,6 +25,9 @@ tbl_urban_land <- readr::read_csv(file.path('..', 'results', 'urban_land.csv'), 
 # List of countries available in urban land projections
 lst_countries <- unique(tbl_urban_land$REGION)
 
+# Only China, India, US for demo
+lst_countries <- c('CHN', 'IND', 'USA')
+
 # Loop through countries
 for (iso in lst_countries) {
   # Print country name
