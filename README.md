@@ -16,9 +16,9 @@ Run "functions/urban_land_quantities.R" in R to perform the calculation.
 
 ## Urban land covers in 2015
 
-The urban land covers in 2015 are based on the Global Human Settlement Layer - Settlement Model (GHSL-SMOD; Florczyk et al 2019). Grid cells labeled as "urban center (30)" or "dense urban cluster (23)" are considered urban lands. Both of these two types of grid cells have \>50% impervious surface and \>1,500 people/km\^2 population density.
+The urban land covers in 2015 are based on the Global Human Settlement Layer - Settlement Model (GHSL-SMOD; Florczyk et al 2019). Grid cells labeled as "urban center (30)" or "dense urban cluster (23)" are considered urban lands. Both of these two types of grid cells have \>50% impervious surface and \>1,500 people/km\^2 population density. This reporsitory only incluees setups for China, India, and United States.
 
-Run script "functions/urban_land_setup.R" in R to crop urban land covers in 2015 for each country. The cropped rasters are stored in "results/{country_ISO3_code}/urban_2015.tif".
+Run script "functions/urban_land_setup.R" in R to crop urban land covers in 2015 for all countries. The cropped rasters are stored in "results/{country_ISO3_code}/urban_2015.tif".
 
 ## System requirements
 
