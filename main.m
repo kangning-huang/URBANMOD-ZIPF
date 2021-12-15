@@ -9,7 +9,7 @@ ul_areas = readtable("results/urban_land.csv");
 ul_areas_2100_ssp5 = ul_areas(strcmp(ul_areas.SCENARIO,'SSP5') & ul_areas.year==2100,:);
 
 % Number of runs in Monte Carlo simulation
-n_times = 100;
+ntimes = 100;
 
 % Run URBANMOD in China, India, and United Stated
 countries = {'CHN', 'IND', 'USA'};
@@ -18,4 +18,5 @@ for i = 1:length(countries)
     country  = ul_areas.REGION;
     year     = ul_areas.year;
     ssp      = ul_areas.SCENARIO;
+    ul_area  = ul_areas.urban_land;
 end
