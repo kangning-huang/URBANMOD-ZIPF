@@ -13,15 +13,14 @@ function urbanmod_prob_tif( in_path, control )
     [os ~] = computer;
     in_path = path_os(in_path);
 	filename_urban = strcat(in_path, 'urban.tif');
-    [urban, header] = geotiffread(filename_urban);
+    [urban, header] = readgeoraster(filename_urban);
     info = geotiffinfo(filename_urban);
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTRasterTypeGeoKey    = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.ProjectedCSTypeGeoKey = 32767;
     urban = double(urban);
     urban(urban == 0) = 0;
-%     [suit,  header] = importmap(strcat(in_path, 'suitability.txt'));
-    [suit, ~] = geotiffread(strcat(in_path, 'suitability.tif'));
+    [suit, ~] = readgeoraster(strcat(in_path, 'suitability.tif'));
     suit( suit  == -realmax('single')) = nan;
     [nyr, nurban]   = importctrl(strcat(in_path, control));
     % number of new urban pixels per year
