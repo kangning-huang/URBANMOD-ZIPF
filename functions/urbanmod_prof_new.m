@@ -15,10 +15,12 @@ function urbanmod_prof_new(path, year_start, year_end, scenario, nurban, nntimes
     %% Testing
     path       = fullfile(pwd, 'results', 'CHN');
     year_start = 2015;
-    year_end   = 2100;
+    year_end   = 2050;
     scenario   = 'SSP5';
-    nurban     = 445968;
-    ntimes    = 10;
+    nurban     = 428120;
+    ntimes     = 7;
+    % Test parallel computing
+    parpool('local', ntimes);
 
     %% Model parameter
     winsize = 3;
@@ -60,7 +62,7 @@ function urbanmod_prof_new(path, year_start, year_end, scenario, nurban, nntimes
         urban_new = urban;
         for t = 1:nyr    
             % debug print
-            fprintf(1, '%2dth year, ', t); if(mod(t,5)==0), fprintf(1, '\n'); end
+            fprintf(1, 'Running %4d, ', year_start + t); if(mod(t,5)==0), fprintf(1, '\n'); end
             % pixels remain to urbanized
             nremain = nnew;
 
