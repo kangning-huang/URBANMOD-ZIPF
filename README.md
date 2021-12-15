@@ -23,6 +23,7 @@ Run script "functions/urban_land_setup.R" in R to crop urban land covers in 2015
 ## System requirements
 
 -   Matlab R2021b or above;
+-   Matlab Mapping Toolbox is required to read geotiff;
 -   RStudio v1.4.1717 or above;
 -   R v4.1.0 or above;
 
