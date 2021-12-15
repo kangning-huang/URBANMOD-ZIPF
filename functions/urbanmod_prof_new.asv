@@ -40,8 +40,7 @@ function urbanmod_prof_new(path, year_start, year_end, scenario, nurban, nntimes
     nnew = ceil((nurban - sum(urban(:))) / nyr);
 
     %% Create output folder
-    path_out = fullfile(path, strcat(scenario, '_', num2str(year_end)));
-    mkdir(path_out);
+    mkdir(fullfile(path, strcat(scenario, '_', num2str(year_end))));
 
     %% Create grid
     [nrow, ncol] = size(urban);
@@ -92,7 +91,9 @@ function urbanmod_prof_new(path, year_start, year_end, scenario, nurban, nntimes
                 nremain = nremain - length(idx_sel);
             end                        
         end
-        geotiffwrite(fullfile(path_out, strcat(num2str(tt, '%04d'), '.tif')), ...
+        path_eachtime = strcat(in_path, 'urban-', control(1:4), '\');
+        path_eachtime = path_os(path_eachtime);
+        geotiffwrite(strcat(path_eachtime, num2str(tt, '%04d'), '.tif'), ...
             logical(urban_new), header, 'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
         urban_prob(:,:,tt) = urban_new;
         sizes{tt} = urban_size(urban_new, winsize);
@@ -100,10 +101,15 @@ function urbanmod_prof_new(path, year_start, year_end, scenario, nurban, nntimes
     
     % calculate probability   
     urban_new = mean(urban_prob, 3);
+%     urban_new(urban_new == 0) = header.nodat;
         
     %% Output result
+%     urban_prob_file = strcat(in_path, 'urban-', control(1:4), '.mat');
+%     save(urban_prob_file, 'urban_prob', '-v7.3');
     urban_size_file = strcat(in_path, 'size-',  control(1:4), '.mat');
     save(urban_size_file, 'sizes',      '-v7.3');
-    geotiffwrite(strcat(path_out, '.tif'), urban_new, header, ...
+%     writemap(strcat(in_path, 'urban-', control), urban_new, header);
+    geotiffwrite(strcat(in_path, 'urban-', control(1:4), '.tif'), urban_new, header, ...
         'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
 end
+
