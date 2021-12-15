@@ -12,13 +12,13 @@ function urbanmod_prof_new(filepath, year_start, year_end, scenario, nurban, nti
 %       Ensemble    -- filepath/{scenario}/{yr1}/*.tif
 %       Probability -- filepath/{scenario}_{yr1}.tif
 
-    %% Testing codes
+    %% Testing
     filepath   = fullfile(pwd, 'results', 'CHN');
     year_start = 2015;
     year_end   = 2100;
     scenario   = 'SSP5';
     nurban     = 445968;
-    ntimes     = 100;
+    ntimes     = 10;
 
     %% Model parameter
     winsize = 3;
@@ -37,5 +37,14 @@ function urbanmod_prof_new(filepath, year_start, year_end, scenario, nurban, nti
     [nyr, nurban]   = importctrl(strcat(filepath, control));
     % number of new urban pixels per year
     nnew = ceil((nurban - sum(urban(:))) / nyr);
+
+    %% Create grid
+    [nrow, ncol] = size(urban);
+    [cols, rows] = meshgrid(1:ncol, 1:nrow);
+
+    %% Suitability distribution of urbanized pixels
+    nbins = 20;
+    [prob, ctrs] = suitability_distribution(urban, suit, nbins);
+    
 end
 
