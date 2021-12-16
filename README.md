@@ -1,6 +1,6 @@
 # URBANMOD-ZIPF
 
-This repository contains codes and sample data to run the urban land expansion model, URBANMO-ZIPF, that preserves the Zipf's law size distribution of urban clusters. Detailed descriptions of this model can be found in (Huang et al 2019).
+This repository contains codes and sample data to run the urban land expansion model, URBANMO-ZIPF, that preserves the Zipf's law size distribution of urban clusters. Detailed descriptions of this model can be found in (Huang et al 2019). Visualization of global urban land expansion by 2050 can be found here: https://knhuang.weebly.com/urban-expansion-2050.html.
 
 Other versions of this model can be found in (Seto et al 2012) and (Chen et al 2020). The version in (Seto et al 2012) does not preserve Zipf's law. The version in (Chen et al 2020) preserves Zipf's law and introduces a mechanism of urban shrinking.
 
