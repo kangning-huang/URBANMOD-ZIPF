@@ -26,7 +26,8 @@ function urbanmod_prof_new(path, year_start, year_end, scenario, nurban, nntimes
     winsize = 3;
 
     %% Read data
-	filename_urban = fullfile(path, strcat('urban', '_', num2str(year_start), '.tif'));
+	filename_urban = fullfile(path, ...
+        strcat('urban', '_', num2str(year_start), '.tif'));
     [urban, header] = readgeoraster(filename_urban);
     info = geotiffinfo(filename_urban);
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;

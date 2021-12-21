@@ -17,11 +17,10 @@ function urban_sel = neighbor_pixels_gibrats( urban, winsize )
     npxls = cellfun(@numel, cc.PixelIdxList);
     
     % mark each pixel according to component sizes
-    urban_size = urban;
+    urban_size = single(urban);
     for ii = 1:cc.NumObjects
         urban_size(cc.PixelIdxList{ii}) = npxls(ii);
     end
-    
     
     %% mark neighboring pixels according to sizes
 %     neighbors = ordfilt2(urban_size, 9, kernel);
