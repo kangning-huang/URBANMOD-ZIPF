@@ -38,7 +38,8 @@ for (iso in lst_countries) {
   # Select and re-project country polygons
   country <- countries %>% 
     dplyr::filter(ADM0_A3==iso) %>%
-    sf::st_transform(crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
+    sf::st_transform(
+      crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
   # Remove eastern pacific islands from USA
   if(iso=='USA') {
     usa_polygons <- country %>% 
@@ -48,7 +49,8 @@ for (iso in lst_countries) {
     usa_polygons$ct_long <- sf::st_coordinates(usa_centroids)[,1]
     country <- usa_polygons %>%
       dplyr::filter(ct_long < 0) %>%
-      sf::st_transform(crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
+      sf::st_transform(
+        crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
       dplyr::group_by(ADM0_A3) %>%
       dplyr::summarise()
   }

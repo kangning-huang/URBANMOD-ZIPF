@@ -30,6 +30,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
     % Suitability for urban expansion
     [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'));
     suit(suit < 0) = nan;
+    warning('off','all');
     info = geotiffinfo(fullfile(path, 'suitability.tif'));
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTRasterTypeGeoKey    = 1;

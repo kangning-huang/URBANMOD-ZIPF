@@ -5,8 +5,8 @@ addpath("utils/");
 % Read urban land areas
 ul_areas = readtable("results/urban_land.csv");
 
-% Number of runs in Monte Carlo simulation
-% The program will be VERY SLOW if ntimes is large
+% ntimes is the number of runs in Monte Carlo simulation, if ntimes is
+% large, the simulations will be VERY SLOW on personal computers
 ntimes = 10;
 
 % Choose country and scenario to run
