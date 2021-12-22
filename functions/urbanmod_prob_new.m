@@ -15,8 +15,8 @@ function urbanmod_prob_new(region, scenario, ntimes)
 %     scenario = 'SSP5';
 %     ntimes   = 5;
     
-    % Test parallel computing
-    parpool('local', ntimes);
+    % Activate parallel computing
+    poolobj = parpool('local', ntimes);
 
     %% Read data
     path = fullfile('results', region);
@@ -50,7 +50,6 @@ function urbanmod_prob_new(region, scenario, ntimes)
         urban_prob = zeros(nrow, ncol, ntimes);
         % Parallel loop through n times of simulations
         parfor tt = 1:ntimes
-            fprintf('%04dth time\n', tt);
             % Initial urban land cover
             [urban_start, ~] = readgeoraster(fullfile(path, 'urban_2015.tif'));
             % If not starting in 2015, urban_start from last decade
@@ -63,7 +62,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
             % Load number of urban pixels
             nurban = ul_area_sub(ul_area_sub.year==year_end,:).urban_land;
             % Run simulation once 
-            urban_end = urbanmod_new(urban_start, suit, nyr, nurban);
+            urban_end = urbanmod_new(urban_start, suit, nyr, nurban, year_start, tt);
             % Output one simulation
             file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
             geotiffwrite(file_out,urban_end,header);
@@ -74,6 +73,9 @@ function urbanmod_prob_new(region, scenario, ntimes)
         file_en_out = fullfile('results', region, strcat(scenario,'_',year_end,'.tif'));
         urban_mean = mean(urban_prob, 3);
         geotiffwrite(file_en_out, urban_mean, header);
+        % Update starting year
+        year_start = year_end;
     end
+    delete(poolobj);
 end
 

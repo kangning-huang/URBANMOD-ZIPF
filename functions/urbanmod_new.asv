@@ -1,13 +1,12 @@
-function [urban_end] = urbanmod_new(urban_start, suit, nyr, nurban, year_start, tt)
+function [urban_end] = urbanmod_new(urban_start, suit, year_start, nyr, nurban)
 %URBANMOD_NEW 
 %   Simulate urban expansion
 %   INPUT:
 %       urban_start -- Urban land use at the start of the simulation
 %       suit        -- Suitability layer
+%       year_start  -- Starting year
 %       nyr         -- Number of years during the simulation
 %       nurban      -- Number of urban pixels at the end of the simulation
-%       year_start  -- Starting year
-%       tt          -- The ensemble number
 %   OUTPUT: 
 %       urban_end   -- Urban land use at the end of the simulation
 
@@ -38,14 +37,8 @@ function [urban_end] = urbanmod_new(urban_start, suit, nyr, nurban, year_start, 
     %% Main loop
     for t = 1:nyr    
         
-        % Print progress
-        if ~exist('year_start', 'var')
-            fprintf(1, 'Running the %dth year;\n', t);
-        elseif ~exist('tt', 'var')
-            fprintf(1, 'Running year %d;\n', year_start+t);
-        else
-            fpringf(1, 'Running year %d, %dth ensemble;', year_start+t, tt);
-        end
+        % debug print
+        fprintf(1, 'Running year \n', year_start+t); 
         
         % pixels remain to urbanized
         nremain = nnew;
