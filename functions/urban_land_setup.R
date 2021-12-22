@@ -14,7 +14,10 @@ countries <- ne_download(scale = 10, returnclass = 'sf') %>%
   dplyr::select(ADM0_A3, ADMIN)
 
 # Load urban land cover in 2015 from GHSL
-smod_2015 <- raster(file.path('..', 'data', 'GHS_SMOD_POP2015_GLOBE_R2019A_54009_1K_V2_0', 'GHS_SMOD_POP2015_GLOBE_R2019A_54009_1K_V2_0.tif'))
+smod_2015 <- raster(
+  file.path('..', 'data', 
+            'GHS_SMOD_POP2015_GLOBE_R2019A_54009_1K_V2_0', 
+            'GHS_SMOD_POP2015_GLOBE_R2019A_54009_1K_V2_0.tif'))
 
 # Load urban suitability (global coverage)
 suitability <- raster(file.path('..', 'data', 'suitability', 'suitability_pca2_excluded.tif'))
@@ -36,6 +39,19 @@ for (iso in lst_countries) {
   country <- countries %>% 
     dplyr::filter(ADM0_A3==iso) %>%
     sf::st_transform(crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
+  # Remove eastern pacific islands from USA
+  if(iso=='USA') {
+    usa_polygons <- country %>% 
+      sf::st_cast('POLYGON') %>%
+      sf::st_transform(crs = 'WGS84')
+    usa_centroids <- sf::st_centroid(usa_polygons)
+    usa_polygons$ct_long <- sf::st_coordinates(usa_centroids)[,1]
+    country <- usa_polygons %>%
+      dplyr::filter(ct_long < 0) %>%
+      sf::st_transform(crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
+      dplyr::group_by(ADM0_A3) %>%
+      dplyr::summarise()
+  }
   if(nrow(country)>0) {
     # Create mask for the country
     mask_ctry <- country %>%
