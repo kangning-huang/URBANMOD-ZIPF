@@ -16,7 +16,8 @@ function urbanmod_prob_new(region, scenario, ntimes)
 %     ntimes   = 5;
     
     % Activate parallel computing
-    poolobj = parpool('local', ntimes);
+    ncores  = feature('numcores');
+    poolobj = parpool('local', ncores-1);
 
     %% Read data
     path = fullfile('results', region);
@@ -71,8 +72,9 @@ function urbanmod_prob_new(region, scenario, ntimes)
             urban_prob(:,:,tt) = urban_end;
         end
         % Output ensemble mean
-        file_en_out = fullfile('results', region, strcat(scenario,'_',year_end,'.tif'));
         urban_mean = mean(urban_prob, 3);
+        file_en_out = fullfile('results', region, ...
+            strcat(scenario, '_', num2str(year_end), '.tif'));
         geotiffwrite(file_en_out, urban_mean, header, ...
             'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
         % Update starting year
