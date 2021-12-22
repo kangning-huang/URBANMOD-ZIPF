@@ -44,7 +44,7 @@ function [urban_end] = urbanmod_new(urban_start, suit, nyr, nurban, year_start, 
         elseif ~exist('tt', 'var')
             fprintf('Running year %d;\n', year_start+t);
         else
-            fprintf('Running %dth ensemble, year %d;\n', year_start+t, tt);
+            fprintf('Running %dth ensemble, year %d;\n', tt, year_start+t);
         end
         
         % pixels remain to urbanized
