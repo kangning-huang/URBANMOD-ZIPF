@@ -11,9 +11,9 @@ function urbanmod_prob_new(region, scenario, ntimes)
 %       Probability -- results/{region}/{scenario}_{yr1}.tif 
 
     %% Testing
-    region   = 'CHN';
-    scenario = 'SSP5';
-    ntimes   = 5;
+%     region   = 'CHN';
+%     scenario = 'SSP5';
+%     ntimes   = 5;
     
     % Test parallel computing
     parpool('local', ntimes);
@@ -25,20 +25,16 @@ function urbanmod_prob_new(region, scenario, ntimes)
     ul_area_sub = ul_areas(...
         strcmp(ul_areas.REGION, region) & ...
         strcmp(ul_areas.SCENARIO,scenario),:);
-    % Initial urban land cover
-    [urban, header] = readgeoraster(fullfile(path, 'urban_2015.tif'));
-    info = geotiffinfo(fullfile(path, 'urban_2015.tif'));
+    % Suitability for urban expansion
+    [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'));
+    suit(suit < 0) = nan;
+    info = geotiffinfo(fullfile(path, 'suitability.tif'));
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTRasterTypeGeoKey    = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.ProjectedCSTypeGeoKey = 32767;
-    urban(urban < 0) = 0;
-    % Suitability for urban expansion
-    [suit, ~] = readgeoraster(fullfile(path, 'suitability.tif'));
-    suit(suit < 0) = nan;
     
     %% Main loop
     disp(['Running ', region]);
-    urban_start = urban;
     year_start  = 2015;
     % Loop through years
     for i = 1:length(ul_area_sub.year)
@@ -50,19 +46,22 @@ function urbanmod_prob_new(region, scenario, ntimes)
         path_out = fullfile('results', region, scenario, num2str(year_end));
         mkdir(path_out);
         % 3D matrix to hold ensemble
-        [nrow, ncol] = size(urban_start);
+        [nrow, ncol] = size(suit);
         urban_prob = zeros(nrow, ncol, ntimes);
         % Parallel loop through n times of simulations
         parfor tt = 1:ntimes
             fprintf('%04dth time\n', tt);
+            % Initial urban land cover
+            [urban_start, ~] = readgeoraster(fullfile(path, 'urban_2015.tif'));
             % If not starting in 2015, urban_start from last decade
             if year_start ~= 2015
                 path_in = fullfile('results', region, scenario, num2str(year_start));
                 file_in = fullfile(path_in, strcat(num2str(tt,'%04d'),'.tif'));
                 [urban_start,~] = readgeoraster(file_in);
             end
+            urban_start(urban_start < 0) = 0;
             % Load number of urban pixels
-            
+            nurban = ul_area_sub(ul_area_sub.year==year_end,:).urban_land;
             % Run simulation once 
             urban_end = urbanmod_new(urban_start, suit, nyr, nurban);
             % Output one simulation
