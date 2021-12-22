@@ -37,7 +37,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
     suit(suit < 0) = nan;
     
     %% Main loop
-    disp(['Running ', region]);
+    disp(strcat('Running ', region));
     urban_start = urban;
     year_start  = 2015;
     % Loop through years
@@ -45,7 +45,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
         % Read year and urban land area
         year_end = ul_area_sub.year(i);
         nyr = year_end - year_start;
-        disp(['Year ', num2str(year_end)]);
+        disp('Running year ', num2str(year_end)J;
         % Output filepath for ensemble
         path_out = fullfile('results', region, scenario, num2str(year_end));
         mkdir(path_out);
@@ -54,15 +54,12 @@ function urbanmod_prob_new(region, scenario, ntimes)
         urban_prob = zeros(nrow, ncol, ntimes);
         % Parallel loop through n times of simulations
         parfor tt = 1:ntimes
-            fprintf('%04dth time\n', tt);
-            % If not starting in 2015, urban_start from last decade
             if year_start ~= 2015
+                % Input filepath from last decade
                 path_in = fullfile('results', region, scenario, num2str(year_start));
                 file_in = fullfile(path_in, strcat(num2str(tt,'%04d'),'.tif'));
                 [urban_start,~] = readgeoraster(file_in);
             end
-            % Load number of urban pixels
-            
             % Run simulation once 
             urban_end = urbanmod_new(urban_start, suit, nyr, nurban);
             % Output one simulation
