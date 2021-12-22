@@ -47,9 +47,6 @@ function urbanmod_prob_new(region, scenario, ntimes)
         % Output filepath for ensemble
         path_out = fullfile('results', region, scenario, num2str(year_end));
         mkdir(path_out);
-        % 3D matrix to hold ensemble
-        [nrow, ncol] = size(suit);
-        urban_prob = zeros(nrow, ncol, ntimes);
         % Parallel loop through n times of simulations
         parfor tt = 1:ntimes
             % Initial urban land cover
@@ -69,11 +66,17 @@ function urbanmod_prob_new(region, scenario, ntimes)
             file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
             geotiffwrite(file_out,urban_end,header,...
                 'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
-            % Ensemble mean
-            urban_prob(:,:,tt) = urban_end;
+        end
+        % Calculate ensemble mean
+        [nrow, ncol] = size(suit);
+        urban_sum = zeros(nrow, ncol);
+        for tt = 1:ntimes
+            file_out  = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
+            urban_tt  = readgeoraster(file_out);
+            urban_sum = urban_sum + urban_tt;
         end
         % Output ensemble mean
-        urban_mean = mean(urban_prob, 3);
+        urban_mean = urban_sum / ntimes;
         file_en_out = fullfile('results', region, ...
             strcat(scenario, '_', num2str(year_end), '.tif'));
         geotiffwrite(file_en_out, urban_mean, header, ...
@@ -81,6 +84,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
         % Update starting year
         year_start = year_end;
     end
+    % Stop parallel computing
     delete(poolobj);
 end
 
