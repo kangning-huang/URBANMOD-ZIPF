@@ -65,14 +65,16 @@ function urbanmod_prob_new(region, scenario, ntimes)
             urban_end = urbanmod_new(urban_start, suit, nyr, nurban, year_start, tt);
             % Output one simulation
             file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
-            geotiffwrite(file_out,urban_end,header);
+            geotiffwrite(file_out,urban_end,header,...
+                'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
             % Ensemble mean
             urban_prob(:,:,tt) = urban_end;
         end
         % Output ensemble mean
         file_en_out = fullfile('results', region, strcat(scenario,'_',year_end,'.tif'));
         urban_mean = mean(urban_prob, 3);
-        geotiffwrite(file_en_out, urban_mean, header);
+        geotiffwrite(file_en_out, urban_mean, header, ...
+            'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
         % Update starting year
         year_start = year_end;
     end
