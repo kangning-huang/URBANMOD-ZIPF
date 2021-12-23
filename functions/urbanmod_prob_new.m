@@ -12,9 +12,9 @@ function urbanmod_prob_new(region, scenario, ntimes)
 
     %% Testing
 %     region   = 'CHN';
-%     region   = 'USA';
-%     scenario = 'SSP5';
-%     ntimes   = 5;
+    region   = 'USA';
+    scenario = 'SSP5';
+    ntimes   = 5;
     
     % Activate parallel computing
     ncores  = feature('numcores');
@@ -44,7 +44,6 @@ function urbanmod_prob_new(region, scenario, ntimes)
         % Read year and urban land area
         year_end = ul_area_sub.year(i);
         nyr = year_end - year_start;
-        disp(['Year ', num2str(year_end)]);
         % Output filepath for ensemble
         path_out = fullfile('results', region, scenario, num2str(year_end));
         mkdir(path_out);
