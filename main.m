@@ -2,9 +2,6 @@
 addpath("functions/");
 addpath("utils/");
 
-% Read urban land areas
-ul_areas = readtable("results/urban_land.csv");
-
 % ntimes is the number of runs in Monte Carlo simulation, if ntimes is
 % large, the simulations will be VERY SLOW on personal computers
 ntimes = 10;
