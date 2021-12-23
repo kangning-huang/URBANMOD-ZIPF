@@ -16,7 +16,7 @@ This demo only provides setup data for China, India, and United States. To setup
 
 ## Urban land areas in Shared Socioeconomic Pathways (SSPs)
 
-The areas of urban land (km\^2) for each country in five Shared Socioeconomic Pathways (SSPs) are stored in "results/urban_land.csv". These areas are calculated based on the panel regression coefficients listed in the Supplementary Table 2 in (Huang et al 2019).
+The area of urban land (km\^2) for each country in five Shared Socioeconomic Pathways (SSPs) are stored in "results/urban_land.csv". These areas are calculated based on the panel regression coefficients listed in the Supplementary Table 2 in (Huang et al 2019).
 
 Run "functions/urban_land_quantities.R" in R to perform the calculation.
 
