@@ -8,7 +8,7 @@ Other versions of this model can be found in (Seto et al 2012) and (Chen et al 2
 
 Run "main.m" in Matlab.
 
-Change the parameters in urbanmod_prob_new() function to run forecasts in different regions, under different scenarios, and for different times. Change csv file "results/urban_land.csv" to set different total areas of urban land for different countries/regions. Change GeoTiff file "data/suitability/suitability_pca2_excluded.tif" and rerun "functions/urban_land_setup.R" in R to use different suitability layers.
+Change the parameters in urbanmod_prob_new() function to run forecasts in different regions, under different scenarios, and for different ensemble sizes. Change csv file "results/urban_land.csv" to set different total areas of urban land for different countries/regions. Change GeoTiff file "data/suitability/suitability_pca2_excluded.tif" and rerun "functions/urban_land_setup.R" in R to use different suitability layers.
 
 This demo only provides setup data for China, India, and United States. To setup for other coutries/regions, run script "functions/urban_land_setup.R" in R.
 
