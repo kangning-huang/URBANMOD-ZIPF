@@ -12,10 +12,10 @@ function urbanmod_prob_new(region, scenario, ntimes)
 
     %% Testing
 %     region   = 'CHN';
-    region   = 'USA';
-    scenario = 'SSP5';
-    ntimes   = 5;
-    
+%     region   = 'USA';
+%     scenario = 'SSP5';
+%     ntimes   = 5;
+%     
     % Activate parallel computing
     ncores  = feature('numcores');
     poolobj = parpool('local', ncores-1);
