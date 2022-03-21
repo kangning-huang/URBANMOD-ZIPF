@@ -49,6 +49,12 @@ function urbanmod_prob_new(region, scenario, ntimes)
         mkdir(path_out);
         % Parallel loop through n times of simulations
         parfor tt = 1:ntimes
+            % Output filename
+            file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
+            % If output file exists, skip this round
+            if isfile(file_out)
+                continue;
+            end
             % Initial urban land cover
             [urban_start, ~] = readgeoraster(fullfile(path, 'urban_2015.tif'));
             % If not starting in 2015, urban_start from last decade
@@ -63,7 +69,6 @@ function urbanmod_prob_new(region, scenario, ntimes)
             % Run simulation once 
             urban_end = urbanmod_new(urban_start, suit, nyr, nurban, year_start, tt);
             % Output one simulation
-            file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
             geotiffwrite(file_out,urban_end,header,...
                 'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
         end
