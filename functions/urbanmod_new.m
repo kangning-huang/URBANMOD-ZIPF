@@ -12,7 +12,7 @@ function [urban_end] = urbanmod_new(urban_start, suit, nyr, nurban, year_start, 
 %       urban_end   -- Urban land use at the end of the simulation
 
     %% Testing debug
-%     nurban = 428120;
+%     nurban = 428120; 
 %     nyr    = 35;
 %     path   = fullfile(pwd, 'results', 'CHN');
 %     [urban_start, header] = readgeoraster(fullfile(path, 'urban_2015.tif'));
