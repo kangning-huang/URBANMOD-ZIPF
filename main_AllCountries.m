@@ -6,6 +6,10 @@ addpath("utils/");
 % large, the simulations will be VERY SLOW on personal computers
 ntimes = 10;
 
+% Activate parallel computing
+ncores = 6; % number of cores
+parpool(ncores);
+
 % Loop through all scenarios and countries
 urban_land = readtable("results/urban_land.csv");
 for i = 1:size(urban_land,1)

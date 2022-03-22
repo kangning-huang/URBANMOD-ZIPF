@@ -17,8 +17,8 @@ function urbanmod_prob_new(region, scenario, ntimes)
 %     ntimes   = 5;
 %     
     % Activate parallel computing
-    ncores  = feature('numcores');
-    poolobj = parpool('local', ncores-1);
+%     ncores  = feature('numcores');
+%     poolobj = parpool('local', ncores-1);
 
     %% Read data
     path = fullfile('results', region);
@@ -90,6 +90,6 @@ function urbanmod_prob_new(region, scenario, ntimes)
         year_start = year_end;
     end
     % Stop parallel computing
-    delete(poolobj);
+%     delete(poolobj);
 end
 
