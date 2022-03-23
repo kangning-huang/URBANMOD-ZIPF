@@ -37,7 +37,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
     info.GeoTIFFTags.GeoKeyDirectoryTag.ProjectedCSTypeGeoKey = 32767;
     
     %% Main loop
-    disp(['Running ', region]);
+    disp(['Running ', region, ' ', scenario]);
     year_start  = 2015;
     % Loop through years
     for i = 1:length(ul_area_sub.year)

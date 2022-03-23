@@ -4,11 +4,11 @@ addpath("utils/");
 
 % ntimes is the number of runs in Monte Carlo simulation, if ntimes is
 % large, the simulations will be VERY SLOW on personal computers
-ntimes = 10;
+ntimes = 6;
 
 % Activate parallel computing
 ncores = 6; % number of cores
-parpool(ncores);
+parpool(ncores); % activate the cores
 
 % Loop through all scenarios and countries
 urban_land = readtable("results/urban_land.csv");

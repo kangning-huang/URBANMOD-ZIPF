@@ -28,8 +28,8 @@ tbl_urban_land <- readr::read_csv(file.path('..', 'results', 'urban_land.csv'), 
 # List of countries available in urban land projections
 lst_countries <- unique(tbl_urban_land$REGION)
 
-# Only China, India, US for demo
-# lst_countries <- c('CHN', 'IND', 'USA')
+# Select countries for demo
+lst_countries <- c('CHN', 'IND', 'USA', 'FRA', 'RUS')
 
 # Loop through countries
 for (iso in lst_countries) {
@@ -42,7 +42,38 @@ for (iso in lst_countries) {
     sf::st_transform(
       crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
   
-  # Remove eastern pacific islands from USA
+  # Remove eastern pacific islands from Russia
+  if(iso=='RUS') {
+    rus_polygons <- country %>% 
+      sf::st_cast('POLYGON') %>%
+      sf::st_transform(crs = 'WGS84')
+    usa_centroids <- sf::st_centroid(rus_polygons)
+    rus_polygons$ct_long <- sf::st_coordinates(usa_centroids)[,1]
+    country <- rus_polygons %>%
+      dplyr::filter(ct_long > 0) %>%
+      sf::st_transform(
+        crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
+      dplyr::group_by(ADM0_A3) %>%
+      dplyr::summarise()
+  }
+  
+  # Remove FG from France
+  if(iso=='FRA') {
+    fra_polygons <- country %>% 
+      sf::st_cast('POLYGON') %>%
+      sf::st_transform(crs = 'WGS84')
+    usa_centroids <- sf::st_centroid(fra_polygons)
+    fra_polygons$ct_long <- sf::st_coordinates(usa_centroids)[,1]
+    fra_polygons$ct_lat  <- sf::st_coordinates(usa_centroids)[,2]
+    country <- fra_polygons %>%
+      dplyr::filter(ct_long > 0 & ct_lat > 0) %>%
+      sf::st_transform(
+        crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
+      dplyr::group_by(ADM0_A3) %>%
+      dplyr::summarise()
+  }
+  
+  # Remove eastern pacific parts from USA
   if(iso=='USA') {
     usa_polygons <- country %>% 
       sf::st_cast('POLYGON') %>%
