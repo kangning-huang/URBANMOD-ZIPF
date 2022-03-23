@@ -35,11 +35,13 @@ lst_countries <- unique(tbl_urban_land$REGION)
 for (iso in lst_countries) {
   # Print country name
   print(paste('Processing', iso))
+  
   # Select and re-project country polygons
   country <- countries %>% 
     dplyr::filter(ADM0_A3==iso) %>%
     sf::st_transform(
       crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
+  
   # Remove eastern pacific islands from USA
   if(iso=='USA') {
     usa_polygons <- country %>% 
@@ -54,7 +56,11 @@ for (iso in lst_countries) {
       dplyr::group_by(ADM0_A3) %>%
       dplyr::summarise()
   }
-  if(nrow(country)>0) {
+  
+  # Output folder
+  path_ctry <- file.path('..', 'results', iso)
+  
+  if(nrow(country)>0 & !dir.exists(path_ctry)) {
     # Create mask for the country
     mask_ctry <- country %>%
       fasterize::fasterize(smod_2015) %>%

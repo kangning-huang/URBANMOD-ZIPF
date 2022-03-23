@@ -12,9 +12,13 @@ parpool(ncores);
 
 % Loop through all scenarios and countries
 urban_land = readtable("results/urban_land.csv");
-for i = 1:size(urban_land,1)
-    country  = urban_land{i,'REGION'}{1};
-    scenario = urban_land{i,'SCENARIO'}{1};
-    urbanmod_prob_new(country, scenario, ntimes);
+countries  = unique(urban_land.REGION);
+scenarios  = unique(urban_land.SCENARIO);
+for i = 1:size(countries,1)
+    country  = countries{i};
+    for j = 1:size(scenarios,1)
+        scenario = scenarios{j};
+        urbanmod_prob_new(country, scenario, ntimes);
+    end
 end
 
