@@ -57,7 +57,7 @@ for (iso in lst_countries) {
       dplyr::summarise()
   }
   
-  # Remove FG from France
+  # Remove French Guiana from France
   if(iso=='FRA') {
     fra_polygons <- country %>% 
       sf::st_cast('POLYGON') %>%
@@ -86,6 +86,15 @@ for (iso in lst_countries) {
         crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
       dplyr::group_by(ADM0_A3) %>%
       dplyr::summarise()
+  }
+  
+  # Add Hong Kong, Macau, Taiwan to China
+  if(iso=='CHN') {
+    country <- countries %>% 
+      dplyr::filter(ADM0_A3 %in% c('CHN','MAC','HKG','TWN')) %>%
+      dplyr::summarise() %>%
+      sf::st_transform(
+        crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
   }
   
   # Output folder
