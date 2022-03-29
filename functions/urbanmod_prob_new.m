@@ -16,17 +16,9 @@ function urbanmod_prob_new(region, scenario, ntimes)
 %     scenario = 'SSP5';
 %     ntimes   = 5;
 %     
-    % Activate parallel computing
-%     ncores  = feature('numcores');
-%     poolobj = parpool('local', ncores-1);
 
     %% Read data
     path = fullfile('results', region);
-    % Read urban land areas
-    ul_areas = readtable("results/urban_land.csv");
-    ul_area_sub = ul_areas(...
-        strcmp(ul_areas.REGION, region) & ...
-        strcmp(ul_areas.SCENARIO,scenario),:);
     % Suitability for urban expansion
     [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'));
     suit(suit < 0) = nan;
@@ -38,17 +30,26 @@ function urbanmod_prob_new(region, scenario, ntimes)
     
     %% Main loop
     disp(['Running ', region, ' ', scenario]);
-    year_start  = 2015;
-    % Loop through years
-    for i = 1:length(ul_area_sub.year)
-        % Read year and urban land area
-        year_end = ul_area_sub.year(i);
-        nyr = year_end - year_start;
-        % Output filepath for ensemble
-        path_out = fullfile('results', region, scenario, num2str(year_end));
-        mkdir(path_out);
-        % Parallel loop through n times of simulations
-        parfor tt = 1:ntimes
+    % Parallel loop through n times of simulations
+    parfor tt = 1:ntimes
+        % Set starting year in 2015
+        year_start  = 2015;
+        % Read urban land areas
+        ul_areas = readtable("results/urban_land.csv");
+        ul_area_sub = ul_areas(...
+            strcmp(ul_areas.REGION, region) & ...
+            strcmp(ul_areas.SCENARIO,scenario),:);
+        % Loop through years
+        for i = 1:length(ul_area_sub.year)
+            % Read year and urban land area
+            year_end = ul_area_sub.year(i);
+            nyr = year_end - year_start;
+            % Output filepath for ensemble
+            path_out = fullfile('results', region, scenario, num2str(year_end));
+            % If the filepath doesn't exist, create it
+            if ~isfolder(path_out)
+                mkdir(path_out);
+            end
             % Output filename
             file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
             % If output file exists, skip this round
@@ -71,8 +72,22 @@ function urbanmod_prob_new(region, scenario, ntimes)
             % Output one simulation
             geotiffwrite(file_out,urban_end,header,...
                 'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
+            % Update starting year
+            year_start = year_end;
         end
-        % Calculate ensemble mean
+    end
+
+    %% Calculate ensemble mean
+    % Read urban land areas
+    ul_areas = readtable("results/urban_land.csv");
+    ul_area_sub = ul_areas(...
+        strcmp(ul_areas.REGION, region) & ...
+        strcmp(ul_areas.SCENARIO,scenario),:);
+    % Output filepath for ensemble
+    for i = 1:length(ul_area_sub.year)
+        year_end = ul_area_sub.year(i);
+        path_out = fullfile('results', region, scenario, num2str(year_end));
+        fprintf('Calculating ensemble mean, %s, %s, %d...\n', region, scenario, year_end);
         [nrow, ncol] = size(suit);
         urban_sum = zeros(nrow, ncol);
         for tt = 1:ntimes
@@ -86,10 +101,5 @@ function urbanmod_prob_new(region, scenario, ntimes)
             strcat(scenario, '_', num2str(year_end), '.tif'));
         geotiffwrite(file_en_out, urban_mean, header, ...
             'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
-        % Update starting year
-        year_start = year_end;
     end
-    % Stop parallel computing
-%     delete(poolobj);
 end
-
