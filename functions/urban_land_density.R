@@ -87,3 +87,6 @@ for (iso in lst_countries) {
 tbl_urb_pop_dens %>%
   readr::write_csv(file.path('..', 'results', 'urban_pop_dens.csv'))
 
+# Delete POP layers
+unlink(file.path('..', 'data', 'GHS_POP_E2015_GLOBE_R2019A_54009_1K_V1_0.zip'))
+unlink(file.path('..', 'data', 'GHS_POP_E2015_GLOBE_R2019A_54009_1K_V1_0'), recursive = T)
