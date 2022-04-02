@@ -8,10 +8,12 @@ library(rstudioapi)
 setwd(dirname(getSourceEditorContext()$path))
 
 # Lookup table (LUT) of country names, ISO3 codes, and 32 regions
-tbl_iso_reg32 <- readr::read_csv(file.path('..', 'data', 'ISO3_countryname_32regions.csv'), show_col_types = F)
+tbl_iso_reg32 <- readr::read_csv(
+  file.path('..', 'data', 'ISO3_countryname_32regions.csv'), show_col_types = F)
 
 # Coefficients of panel regression: Urban Land per capita (km2 / mil persons) ~ GDP per capita ($ / person)
-tbl_coef <- readr::read_csv(file.path('..', 'data', 'ulc_vs_gdpc_32regions.csv'), show_col_types = F) %>%
+tbl_coef <- readr::read_csv(
+  file.path('..', 'data', 'ulc_vs_gdpc_32regions.csv'), show_col_types = F) %>%
   tibble::column_to_rownames('Coefficients')
 
 coef_intercept <- tbl_coef['Intercept', 'Estimate']
