@@ -11,7 +11,8 @@ setwd(dirname(getSourceEditorContext()$path))
 tbl_iso_reg32 <- readr::read_csv(
   file.path('..', 'data', 'ISO3_countryname_32regions.csv'), show_col_types = F)
 
-# Coefficients of panel regression: Urban Land per capita (km2 / mil persons) ~ GDP per capita ($ / person)
+# Coefficients of panel regression: 
+# Urban Land per capita (km2 / mil persons) ~ GDP per capita ($ / person)
 tbl_coef <- readr::read_csv(
   file.path('..', 'data', 'ulc_vs_gdpc_32regions.csv'), show_col_types = F) %>%
   tibble::column_to_rownames('Coefficients')
@@ -20,7 +21,8 @@ coef_intercept <- tbl_coef['Intercept', 'Estimate']
 coef_gdpc      <- tbl_coef['GDPC',      'Estimate']
 
 # Shared Socioeconomic Pathways (SSPs) forecasts of countries from IIASA
-tbl_ssps <- readr::read_csv(file.path('..', 'data', 'SspDb_country_data_2013-06-12.csv'), show_col_types = F)
+tbl_ssps <- readr::read_csv(
+  file.path('..', 'data', 'SspDb_country_data_2013-06-12.csv'), show_col_types = F)
 
 # Filter population (million)
 tbl_pop <- tbl_ssps %>% 
@@ -29,7 +31,7 @@ tbl_pop <- tbl_ssps %>%
   dplyr::select(-MODEL, -VARIABLE, -UNIT) %>% 
   tidyr::pivot_longer(cols = `1950`:`2150`, names_to = 'year', values_to = 'population') %>%
   dplyr::mutate(year = as.integer(year)) %>%
-  dplyr::filter(year>=2030 & year<=2100 & year%%10==0)
+  dplyr::filter(year>=2010 & year<=2100)
 
 # Calculate urban population (million)
 tbl_pop_urb <- tbl_ssps %>%
@@ -38,7 +40,7 @@ tbl_pop_urb <- tbl_ssps %>%
   dplyr::select(-MODEL, -VARIABLE, -UNIT) %>% 
   tidyr::pivot_longer(cols = `1950`:`2150`, names_to = 'year', values_to = 'urban_share') %>%
   dplyr::mutate(year = as.integer(year)) %>%
-  dplyr::filter(year>=2030 & year<=2100 & year%%10==0) %>%
+  dplyr::filter(year>=2010 & year<=2100) %>%
   merge(tbl_pop, by=c('SCENARIO', 'REGION', 'year')) %>%
   dplyr::mutate(urban_pop = population * urban_share / 100) %>%
   dplyr::select(-population)
