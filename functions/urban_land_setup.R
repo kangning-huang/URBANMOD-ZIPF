@@ -11,7 +11,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 # Download country boundaries from Natural Earth
 countries <- ne_download(scale = 10, returnclass = 'sf') %>%
-  dplyr::select(ADM0_A3, ADMIN)
+  dplyr::select(ADM0_A3, ADMIN, UN_A3)
 
 # Load urban land cover in 2015 from GHSL
 smod_2015 <- raster(
@@ -31,7 +31,7 @@ lst_countries <- unique(tbl_urban_land$REGION)
 # Select countries for demo
 lst_countries <- c('CHN', 'IND', 'USA', 'FRA', 'RUS')
 # Select countries for debug
-lst_countries <- c('ARE', 'ISR', 'NGA', 'PSE', 'QAT')
+lst_countries <- c('ARE', 'ISR', 'NGA', 'PSE', 'QAT', 'BGD')
 
 # Loop through countries
 for (iso in lst_countries) {
