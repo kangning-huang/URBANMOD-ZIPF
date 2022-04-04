@@ -4,6 +4,7 @@ library(dplyr)
 library(tidyr)
 library(tibble)
 library(readxl)
+library(stringr)
 library(rstudioapi)
 
 # Set working directory to path of the script
@@ -19,7 +20,8 @@ countries <- ne_download(scale = 10, returnclass = 'sf') %>%
 
 tbl_pop_urb_2015 <- readxl::read_xls(
   file.path('..', 'data', 'WUP2018-F03-Urban_Population.xls'), skip = 16) %>% 
-  dplyr::select(UN_A3 = `Country\ncode`, urban_pop_2015 = `2015`) %>%
+  dplyr::select(`Country\ncode`, urban_pop_2015 = `2015`) %>%
+  dplyr::mutate(UN_A3 = stringr::str_pad(`Country\ncode`, 3, pad = '0')) %>%
   # Convert urban population from thousands to millions
   dplyr::mutate(urban_pop_2015 = urban_pop_2015 / 1000) %>%
   merge(countries, by = 'UN_A3')

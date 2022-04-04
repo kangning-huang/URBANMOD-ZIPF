@@ -4,7 +4,7 @@ addpath("utils/");
 
 % ntimes is the number of runs in Monte Carlo simulation, if ntimes is
 % large, the simulations will be VERY SLOW on personal computers
-ntimes = 6;
+ntimes = 4;
 
 % Choose country and scenario to run
 % This demo only provides setup data for China, India, and United States. 
