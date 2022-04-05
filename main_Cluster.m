@@ -22,7 +22,12 @@ for i = 1:size(countries,1)
     country  = countries{i};
     for j = 1:size(scenarios,1)
         scenario = scenarios{j};
+        % Check if the scenario is run
+        if isfile(fullfile("results/",country,strcat(scenario,'_2100.tif')))
+            continue;
+        end
         % Submit batch job
+        disp(strcat("Submitting job: ", country, " ", scenario));
         c.batch(@urbanmod_prob_new,0,{country,scenario,ntimes}, ...
             'Pool',11,'CurrentFolder','/scratch/kh3657/URBANMOD-ZIPF/');    
     end
