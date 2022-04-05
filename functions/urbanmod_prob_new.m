@@ -14,6 +14,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
 %     region   = 'CHN';
 %     region   = 'USA';
 %     region   = 'BGD';
+%     region   = 'NZL';
 %     scenario = 'SSP5';
 %     ntimes   = 4;
 %     

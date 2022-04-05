@@ -13,45 +13,51 @@ function urbanmod_prob_new(region, scenario, ntimes)
     %% Testing
 %     region   = 'CHN';
 %     region   = 'USA';
+%     region   = 'BGD';
+%     region   = 'NZL';
 %     scenario = 'SSP5';
-%     ntimes   = 5;
-    
-    % Activate parallel computing
-    ncores  = feature('numcores');
-    poolobj = parpool('local', ncores-1);
+%     ntimes   = 4;
+%     
 
     %% Read data
     path = fullfile('results', region);
-    % Read urban land areas
-    ul_areas = readtable("results/urban_land.csv");
-    ul_area_sub = ul_areas(...
-        strcmp(ul_areas.REGION, region) & ...
-        strcmp(ul_areas.SCENARIO,scenario),:);
     % Suitability for urban expansion
     [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'));
     suit(suit < 0) = nan;
+    warning('off','all');
     info = geotiffinfo(fullfile(path, 'suitability.tif'));
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTRasterTypeGeoKey    = 1;
     info.GeoTIFFTags.GeoKeyDirectoryTag.ProjectedCSTypeGeoKey = 32767;
     
     %% Main loop
-    disp(['Running ', region]);
-    year_start  = 2015;
-    % Loop through years
-    for i = 1:length(ul_area_sub.year)
-        % Read year and urban land area
-        year_end = ul_area_sub.year(i);
-        nyr = year_end - year_start;
-        disp(['Year ', num2str(year_end)]);
-        % Output filepath for ensemble
-        path_out = fullfile('results', region, scenario, num2str(year_end));
-        mkdir(path_out);
-        % 3D matrix to hold ensemble
-        [nrow, ncol] = size(suit);
-        urban_prob = sparse(zeros(nrow, ncol, ntimes);
-        % Parallel loop through n times of simulations
-        parfor tt = 1:ntimes
+    disp(['Running ', region, ' ', scenario]);
+    % Parallel loop through n times of simulations
+    parfor tt = 1:ntimes
+        % Set starting year in 2015
+        year_start  = 2015;
+        % Read urban land areas
+        ul_areas = readtable("results/urban_land.csv");
+        ul_area_sub = ul_areas(...
+            strcmp(ul_areas.REGION, region) & ...
+            strcmp(ul_areas.SCENARIO,scenario),:);
+        % Loop through years
+        for i = 1:length(ul_area_sub.year)
+            % Read year and urban land area
+            year_end = ul_area_sub.year(i);
+            nyr = year_end - year_start;
+            % Output filepath for ensemble
+            path_out = fullfile('results', region, scenario, num2str(year_end));
+            % If the filepath doesn't exist, create it
+            if ~isfolder(path_out)
+                mkdir(path_out);
+            end
+            % Output filename
+            file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
+            % If output file exists, skip this round
+            if isfile(file_out)
+                continue;
+            end
             % Initial urban land cover
             [urban_start, ~] = readgeoraster(fullfile(path, 'urban_2015.tif'));
             % If not starting in 2015, urban_start from last decade
@@ -66,21 +72,36 @@ function urbanmod_prob_new(region, scenario, ntimes)
             % Run simulation once 
             urban_end = urbanmod_new(urban_start, suit, nyr, nurban, year_start, tt);
             % Output one simulation
-            file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
             geotiffwrite(file_out,urban_end,header,...
                 'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
-            % Ensemble mean
-            urban_prob(:,:,tt) = urban_end;
+            % Update starting year
+            year_start = year_end;
+        end
+    end
+
+    %% Calculate ensemble mean
+    % Read urban land areas
+    ul_areas = readtable("results/urban_land.csv");
+    ul_area_sub = ul_areas(...
+        strcmp(ul_areas.REGION, region) & ...
+        strcmp(ul_areas.SCENARIO,scenario),:);
+    % Output filepath for ensemble
+    for i = 1:length(ul_area_sub.year)
+        year_end = ul_area_sub.year(i);
+        path_out = fullfile('results', region, scenario, num2str(year_end));
+        fprintf('Calculating ensemble mean, %s, %s, %d...\n', region, scenario, year_end);
+        [nrow, ncol] = size(suit);
+        urban_sum = zeros(nrow, ncol);
+        for tt = 1:ntimes
+            file_out  = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
+            urban_tt  = readgeoraster(file_out);
+            urban_sum = urban_sum + urban_tt;
         end
         % Output ensemble mean
-        urban_mean = mean(urban_prob, 3);
+        urban_mean = urban_sum / ntimes;
         file_en_out = fullfile('results', region, ...
             strcat(scenario, '_', num2str(year_end), '.tif'));
         geotiffwrite(file_en_out, urban_mean, header, ...
             'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
-        % Update starting year
-        year_start = year_end;
     end
-    delete(poolobj);
 end
-

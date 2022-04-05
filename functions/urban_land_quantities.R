@@ -91,31 +91,26 @@ tbl_urban_land_2015 <- tbl_urb_pop_dens_2015 %>%
   dplyr::select(REGION, urb_land_2015 = urb_land)
 
 # Convert urban population density (persons/km2) to urban land / cap (km2/mil)
-tbl_ulc_2015 <- tbl_urb_pop_dens_2015 %>%
-  dplyr::mutate(ULC_2015 = 10^6/urb_pop_dens,
-                urban_land_2015 = urb_land) %>%
-  dplyr::select(REGION, ends_with('_2015')) %>%
-  tidyr::drop_na()
+tbl_ulc_2015 <- tbl_urban_land_2015 %>%
+  merge(tbl_pop_urb_2015, by = 'REGION') %>% 
+  dplyr::mutate(ULC_2015 = urb_land_2015 / urban_pop_2015) %>%
+  dplyr::select(REGION, ULC_2015)
 
 # Calculate Urban Land (km2) resulting from increases in GDPC and Urban Pop
 tbl_urban_pop_incrs <- merge(tbl_pop_urb_2015, tbl_pop_urb, by = 'REGION') %>% 
   dplyr::mutate(urban_pop_incrs = urban_pop - urban_pop_2015) %>%
-  dplyr::select(-UN_A3, -ADMIN)
+  dplyr::select(-UN_A3, -ADMIN, -`Country\ncode`)
 
 tbl_ULC_incrs <- merge(tbl_gdpc_2015, tbl_gdpc, by = 'REGION') %>%
   dplyr::mutate(GDPC_incrs = GDPC - GDPC_2015) %>%
   dplyr::mutate(ULC_incrs = GDPC_incrs * coef_gdpc)
 
-tbl_ULC_incrs %>% head()
-tbl_urban_pop_incrs %>% head()
-
 tbl_urban_land <- tbl_urban_land_2015 %>% 
   merge(tbl_ulc_2015, by = 'REGION') %>%
   merge(tbl_urban_pop_incrs, by = 'REGION') %>% 
   merge(tbl_ULC_incrs, by = c('REGION','SCENARIO','year')) %>% 
-  dplyr::mutate(
-    urban_land_incrs = (ULC_2015+ULC_incrs) * (urban_pop_2015+urban_pop_incrs)) %>%
-  dplyr::mutate(urban_land = urb_land_2015 + urban_land_incrs)
+  dplyr::mutate(ULC = ULC_2015 + ULC_incrs) %>%
+  dplyr::mutate(urban_land = ULC * urban_pop)
 
 # Calculate Urban Land (km2)
 # tbl_urban_land <- tbl_gdpc %>% 
