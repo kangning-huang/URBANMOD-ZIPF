@@ -90,6 +90,21 @@ for (iso in lst_countries) {
       dplyr::summarise()
   }
   
+  # Remove islands in western hemisphere from New Zealand
+  if(iso=='NZL') {
+    nzl_polygons <- country %>% 
+      sf::st_cast('POLYGON') %>%
+      sf::st_transform(crs = 'WGS84')
+    usa_centroids <- sf::st_centroid(nzl_polygons)
+    nzl_polygons$ct_long <- sf::st_coordinates(usa_centroids)[,1]
+    country <- nzl_polygons %>%
+      dplyr::filter(ct_long > 0) %>%
+      sf::st_transform(
+        crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs') %>%
+      dplyr::group_by(ADM0_A3) %>%
+      dplyr::summarise()
+  }
+  
   # Add Hong Kong, Macau, Taiwan to China
   if(iso=='CHN') {
     country <- countries %>% 
