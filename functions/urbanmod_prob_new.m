@@ -56,6 +56,9 @@ function urbanmod_prob_new(region, scenario, ntimes)
             file_out = fullfile(path_out, strcat(num2str(tt,'%04d'),'.tif'));
             % If output file exists, skip this round
             if isfile(file_out)
+                % Update starting year
+                year_start = year_end;
+                % Skip this round
                 continue;
             end
             % Initial urban land cover
