@@ -21,6 +21,7 @@ smod_2015 <- raster(
 
 # Load urban suitability (global coverage)
 suitability <- raster(file.path('..', 'data', 'suitability', 'suitability_pca2_excluded.tif'))
+suitability[is.na(suitability)] <- 0
 
 # Load Urban Land (km2) projections
 tbl_urban_land <- readr::read_csv(file.path('..', 'results', 'urban_land.csv'), show_col_types = F)
@@ -32,6 +33,7 @@ lst_countries <- unique(tbl_urban_land$REGION)
 lst_countries <- c('CHN', 'IND', 'USA', 'FRA', 'RUS')
 # Select countries for debug
 lst_countries <- c('ARE', 'ISR', 'NGA', 'PSE', 'QAT', 'BGD', 'NZL')
+# lst_countries <- c('SLB')
 
 # Loop through countries
 for (iso in lst_countries) {
@@ -112,6 +114,11 @@ for (iso in lst_countries) {
       dplyr::summarise() %>%
       sf::st_transform(
         crs='+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')
+  }
+  
+  # Buffer Solomon Islands by 1km
+  if(iso=='SLB') {
+    country <- st_buffer(country, dist = 1000)
   }
   
   # Output folder
