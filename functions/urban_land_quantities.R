@@ -53,8 +53,8 @@ tbl_pop <- tbl_ssps %>%
   dplyr::filter(year>=2010 & year<=2100)
 
 # Calculate urban population (million)
-readxl::read_xlsx(file.path('..', 'data', 'urbproj_all.xlsx'),
-                  sheet = 'data') %>%
+tbl_pop_urb <- 
+  readxl::read_xlsx(file.path('..', 'data', 'urbproj_all.xlsx'), sheet = 'data') %>%
   dplyr::mutate(Scenario = stringr::str_sub(Scenario, 1, 4)) %>%
   tidyr::pivot_longer(cols = `2010`:`2100`, names_to = 'year', values_to = 'urban_share') %>% 
   dplyr::select(SCENARIO=Scenario, REGION=Region, year, urban_share) %>%
