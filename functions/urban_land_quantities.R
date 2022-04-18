@@ -45,7 +45,7 @@ tbl_ssps <- readr::read_csv(
 
 # Filter population (million)
 tbl_pop <- tbl_ssps %>% 
-  dplyr::filter(VARIABLE=='Population' & MODEL=='OECD Env-Growth') %>%
+  dplyr::filter(VARIABLE=='Population' & MODEL=='IIASA-WiC POP') %>%
   dplyr::mutate(SCENARIO = stringr::str_sub(SCENARIO, 1, 4)) %>%
   dplyr::select(-MODEL, -VARIABLE, -UNIT) %>% 
   tidyr::pivot_longer(cols = `1950`:`2150`, names_to = 'year', values_to = 'population') %>%
@@ -53,11 +53,11 @@ tbl_pop <- tbl_ssps %>%
   dplyr::filter(year>=2010 & year<=2100)
 
 # Calculate urban population (million)
-tbl_pop_urb <- tbl_ssps %>%
-  dplyr::filter(VARIABLE=='Population|Urban|Share') %>%
-  dplyr::mutate(SCENARIO = stringr::str_sub(SCENARIO, 1, 4)) %>%
-  dplyr::select(-MODEL, -VARIABLE, -UNIT) %>% 
-  tidyr::pivot_longer(cols = `1950`:`2150`, names_to = 'year', values_to = 'urban_share') %>%
+readxl::read_xlsx(file.path('..', 'data', 'urbproj_all.xlsx'),
+                  sheet = 'data') %>%
+  dplyr::mutate(Scenario = stringr::str_sub(Scenario, 1, 4)) %>%
+  tidyr::pivot_longer(cols = `2010`:`2100`, names_to = 'year', values_to = 'urban_share') %>% 
+  dplyr::select(SCENARIO=Scenario, REGION=Region, year, urban_share) %>%
   dplyr::mutate(year = as.integer(year)) %>%
   dplyr::filter(year>=2015 & year<=2100 & year%%10==0) %>%
   merge(tbl_pop, by=c('SCENARIO', 'REGION', 'year')) %>%
