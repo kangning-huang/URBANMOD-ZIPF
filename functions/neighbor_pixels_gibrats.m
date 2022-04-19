@@ -49,6 +49,13 @@ function urban_sel = neighbor_pixels_gibrats( urban, winsize )
     urban_sel  = zeros(size(urban));
     urban_sel(urban_rand <= urban_prob) = 1;
     
+    %% Case with only one urban cluster
+    % When there is only one urban cluster the size-based selection fails
+    % In this case, all neighboring pixels of the cluster are chosen
+    if (sum(urban_sel(:))==0)
+        urban_sel(neighbors>0) = 1;
+    end
+
     %% convolution fileter
 %     neighbors = conv2(urban, kernel);    
 %     [nrow, ncol] = size(urban);
