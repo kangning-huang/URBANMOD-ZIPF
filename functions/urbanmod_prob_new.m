@@ -24,7 +24,10 @@ function urbanmod_prob_new(region, scenario, ntimes)
     path = fullfile('results', region);
     % Suitability for urban expansion
     [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'));
+    % Set negative suitability to NAN
     suit(suit < 0) = nan;
+    % Rescale suitability to [0-1]
+    suit = suit / max(suit(:));
     warning('off','all');
     info = geotiffinfo(fullfile(path, 'suitability.tif'));
     info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;
