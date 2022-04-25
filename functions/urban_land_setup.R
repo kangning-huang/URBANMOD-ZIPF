@@ -33,7 +33,7 @@ lst_countries <- unique(tbl_urban_land$REGION)
 # lst_countries <- c('CHN', 'IND', 'USA', 'FRA', 'RUS')
 # Select countries for debug
 # lst_countries <- c('ARE', 'ISR', 'NGA', 'PSE', 'QAT', 'BGD', 'NZL')
-lst_countries <- c('SLB')
+# lst_countries <- c('SLB')
 
 # Loop through countries
 for (iso in lst_countries) {
