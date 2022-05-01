@@ -6,6 +6,7 @@ library(tibble)
 library(readxl)
 library(stringr)
 library(rstudioapi)
+library(rnaturalearth)
 
 # Set working directory to path of the script
 setwd(dirname(getSourceEditorContext()$path))
