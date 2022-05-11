@@ -29,11 +29,13 @@ tbl_urban_land <- readr::read_csv(file.path('..', 'results', 'urban_land.csv'), 
 # List of countries available in urban land projections
 lst_countries <- unique(tbl_urban_land$REGION)
 
-# Select countries for demo
+## Select countries for demo / debug
 # lst_countries <- c('CHN', 'IND', 'USA', 'FRA', 'RUS')
+lst_countries <- c('CHN', 'IND', 'USA')
 # Select countries for debug
 # lst_countries <- c('ARE', 'ISR', 'NGA', 'PSE', 'QAT', 'BGD', 'NZL')
-# lst_countries <- c('SLB')
+# lst_countries <- c('SLB', 'MWI', 'MDG')
+## ---------------------------
 
 # Loop through countries
 for (iso in lst_countries) {
@@ -125,28 +127,38 @@ for (iso in lst_countries) {
   path_ctry <- file.path('..', 'results', iso)
   
   if(nrow(country)>0 & !dir.exists(path_ctry)) {
+    
     # Create mask for the country
     mask_ctry <- country %>%
       fasterize::fasterize(smod_2015) %>%
       raster::crop(country)
+    
     # Crop the global SMOD layer to the country
     smod_ctry_2015 <- smod_2015 %>%
       raster::crop(mask_ctry) %>%
       raster::mask(mask_ctry)
+    
     # Mark urban center (30) and dense urban cluster (23) as urban lands
     urban_ctry_2015 <- (smod_ctry_2015>=23)
+    
     # Interpolate suitability to the country
     suit_ctry <- suitability %>%
       raster::resample(urban_ctry_2015, method='bilinear') %>%
-      # raster::mask(suitability) %>%
       raster::mask(mask_ctry)
+    
     # Create directory for the country
     dir.create(file.path('..', 'results', iso))
+    
     # Export urban land of the country in 2015
-    raster::writeRaster(urban_ctry_2015, overwrite=T,
-                        filename=file.path('..', 'results', iso, 'urban_2015.tif'))
+    urban_ctry_2015 %>%
+      raster::projectRaster(crs = 'EPSG:6933', method = 'ngb') %>%
+      raster::writeRaster(filename = file.path('..', 'results', iso, 'urban_2015.tif'),
+                          overwrite = T)
+    
     # Export urban suitability of the country
-    raster::writeRaster(suit_ctry, overwrite=T,
-                        filename=file.path('..', 'results', iso, 'suitability.tif'))
+    suit_ctry %>%
+      raster::projectRaster(crs = 'EPSG:6933') %>%
+      raster::writeRaster(filename = file.path('..', 'results', iso, 'suitability.tif'),
+                          overwrite = T)
   }
 }

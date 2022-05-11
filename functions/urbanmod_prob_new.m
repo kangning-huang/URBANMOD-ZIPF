@@ -23,16 +23,13 @@ function urbanmod_prob_new(region, scenario, ntimes)
     %% Read data
     path = fullfile('results', region);
     % Suitability for urban expansion
-    [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'));
+    [suit, header] = readgeoraster(fullfile(path, 'suitability.tif'), 'CoordinateSystemType', 'planar');
     % Set negative suitability to NAN
     suit(suit < 0) = nan;
     % Rescale suitability to [0-1]
     suit = suit / max(suit(:));
     warning('off','all');
-    info = geotiffinfo(fullfile(path, 'suitability.tif'));
-    info.GeoTIFFTags.GeoKeyDirectoryTag.GTModelTypeGeoKey     = 1;
-    info.GeoTIFFTags.GeoKeyDirectoryTag.GTRasterTypeGeoKey    = 1;
-    info.GeoTIFFTags.GeoKeyDirectoryTag.ProjectedCSTypeGeoKey = 32767;
+    info = georasterinfo(fullfile(path, 'suitability.tif'));
     
     %% Main loop
     disp(['Running ', region, ' ', scenario]);
@@ -79,8 +76,7 @@ function urbanmod_prob_new(region, scenario, ntimes)
             % Run simulation once 
             urban_end = urbanmod_new(urban_start, suit, nyr, nurban, year_start, tt);
             % Output one simulation
-            geotiffwrite(file_out,urban_end,header,...
-                'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
+            geotiffwrite(file_out,urban_end,header,'CoordRefSysCode', 'EPSG:6933');
             % Update starting year
             year_start = year_end;
         end
@@ -108,7 +104,6 @@ function urbanmod_prob_new(region, scenario, ntimes)
         urban_mean = urban_sum / ntimes;
         file_en_out = fullfile('results', region, ...
             strcat(scenario, '_', num2str(year_end), '.tif'));
-        geotiffwrite(file_en_out, urban_mean, header, ...
-            'GeoKeyDirectoryTag', info.GeoTIFFTags.GeoKeyDirectoryTag);
+        geotiffwrite(file_en_out, urban_mean, header, "CoordRefSysCode", 'EPSG:6933');
     end
 end
