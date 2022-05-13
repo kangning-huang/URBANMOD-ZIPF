@@ -30,11 +30,8 @@ tbl_urban_land <- readr::read_csv(file.path('..', 'results', 'urban_land.csv'), 
 lst_countries <- unique(tbl_urban_land$REGION)
 
 ## Select countries for demo / debug
-# lst_countries <- c('CHN', 'IND', 'USA', 'FRA', 'RUS')
-lst_countries <- c('CHN', 'IND', 'USA')
-# Select countries for debug
-# lst_countries <- c('ARE', 'ISR', 'NGA', 'PSE', 'QAT', 'BGD', 'NZL')
-# lst_countries <- c('SLB', 'MWI', 'MDG')
+lst_countries <- c('SLB', 'MWI', 'MDG')
+
 ## ---------------------------
 
 # Loop through countries
