@@ -7,8 +7,7 @@ addpath("utils/");
 ntimes = 10;
 
 % Choose country and scenario to run
-% This demo only provides setup data for China, India, and United States. 
 % To setup for other coutries/regions, run script "functions/urban_land_setup.R" in R.
-urbanmod_prob_new('CHN', 'SSP5', ntimes);
-urbanmod_prob_new('IND', 'SSP5', ntimes);
-urbanmod_prob_new('USA', 'SSP5', ntimes);
+urbanmod_prob_new('SLB', 'SSP5', ntimes);
+urbanmod_prob_new('MWI', 'SSP5', ntimes);
+urbanmod_prob_new('MDG', 'SSP5', ntimes);
